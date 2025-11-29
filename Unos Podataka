@@ -1,1 +1,54 @@
+PrviZadatak
+/*Koristeći gotove forme za interakciju sa korisnicima (JOptionPane) kreirati GUI koji će
+omogućiti korisniku unos osnovnih podataka, nakon toga pregled podataka i
+generisanje mail adrese. Prilikom unosa potrebni su sledeći podaci ime, prezime i
+godinu rođenja. Email adresa će biti spoj imena, prezimena i godišta sa domenom
+maila @kompanija.me.*/
+import javax.swing.JOptionPane;
+
+/* Ova linija uvozi klasu JOptionPane iz Java Swing biblioteke.
+   JOptionPane omogućava prikazivanje dijaloga za unos podataka, poruka ili potvrda. */
+
+public class UnosPodataka {
+
+    public static void main(String[] args) {
+
+        // 1. Unos imena i prezimena preko showinputdialog  i onda se otvori prozor gdje pise ovo sto smo napisali u zagradama...
+        String ime = JOptionPane.showInputDialog("Unesite ime:");
+        String prezime = JOptionPane.showInputDialog("Unesite prezime:");
+
+        // 2. Unos godine rođenja sa proverom da li je broj
+        String godiste = "";
+        while (true) {
+            try {
+                String godinaString = JOptionPane.showInputDialog("Unesite godinu rođenja:");
+                int godinaRodjenja = Integer.parseInt(godinaString); // pretvaranje string u broj uz pomoc parse
+                godiste = godinaString; //za kasniji pregled ce nam ovo trebati
+                break; // prekida petlju ako je unos ispravan
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Godina mora biti broj! Pokušajte ponovo.");
+            }
+        }
+
+        // 3. Pregled unijetih podataka i potvrda
+        //\n\n dva reda da se odvoje da bi bilo sto blize primjeru iz zadatka, bitno je da bude sto slicniji space
+        String pregled = "Pregled podataka:\n\n" +
+                          "Ime: " + ime + "\n" +
+                          "Prezime: " + prezime + "\n" +
+                          "Godina rođenja: " + godiste;
+
+        int potvrda = JOptionPane.showConfirmDialog(null, pregled + "\nDa li su podaci tačni?", 
+                                                     "Potvrda podataka", JOptionPane.YES_NO_OPTION);
+
+        if (potvrda == JOptionPane.YES_OPTION) {
+            // 4. Generisanje email adrese 
+            String email = ime.toLowerCase() + "." + prezime.toLowerCase() + "." + godiste + "@kompanija.me";
+
+            // 5. Prikaz email adrese uz pomoc showmessagedialog
+            JOptionPane.showMessageDialog(null, "Vaša email adresa je: " + email);
+        } else {
+            JOptionPane.showMessageDialog(null, "Molimo pokrenite program ponovo za ispravan unos.");
+        }
+    }
+}
 
